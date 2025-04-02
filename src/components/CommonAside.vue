@@ -1,5 +1,6 @@
     <script setup>
 import { ref, computed } from "vue";
+import { useAllDataStore } from "@/stores";
 // 左侧菜单数据列表
 const list = ref([
   {
@@ -51,63 +52,67 @@ const list = ref([
 const noChildren = computed(() => list.value.filter((item) => !item.children));
 const hasChildren = computed(() => list.value.filter((item) => item.children));
 //过滤出有多级菜单和无多级菜单的列表数据
+
+const store = useAllDataStore();
+const isCollapse = computed(() => store.state.isCollapse);
+const width = computed(() => (store.state.isCollapse ? "64px" : "180px"));
 </script>
 
 <template>
-  <el-menu
-    default-active="2"
-    class="el-menu-vertical-demo"
-    @open="handleOpen"
-    @close="handleClose"
-    background-color="#545c64"
-    text-color="#fff"
-  >
-    <!-- background-color="#545c64"
+  <el-aside :width="width">
+    <el-menu
+      background-color="#545c64"
+      text-color="#fff"
+      :collapse="isCollapse"
+    >
+      <!-- background-color="#545c64"
     text-color="#fff" -->
-    <!-- 未加之前点击其他会撑开背景颜，导致出现一大坨白色 -->
+      <!-- 未加之前点击其他会撑开背景颜，导致出现一大坨白色 -->
 
-    <!-- 无子菜单 -->
-    <h3>通用后台管理系统</h3>
-    <el-menu-item
-      v-for="item in noChildren"
-      :key="item.path"
-      :index="item.path"
-    >
-      <el-icon class="icons">
-        <component :is="item.icon"></component>
-      </el-icon>
-      <span>{{ item.label }}</span>
-    </el-menu-item>
-    <!-- 无子菜单 -->
-
-    <!-- 有子菜单 -->
-    <el-sub-menu
-      v-for="item in hasChildren"
-      :key="item.path"
-      :index="item.path"
-    >
-      <template #title>
+      <!-- 无子菜单 -->
+      <h3 v-show="!isCollapse">通用后台管理系统</h3>
+      <!-- <h3 v-show="isCollapse">后台管理</h3> -->
+      <el-menu-item
+        v-for="item in noChildren"
+        :key="item.path"
+        :index="item.path"
+      >
         <el-icon class="icons">
           <component :is="item.icon"></component>
         </el-icon>
         <span>{{ item.label }}</span>
-      </template>
+      </el-menu-item>
+      <!-- 无子菜单 -->
 
-      <el-menu-item-group>
-        <el-menu-item
-          v-for="child in item.children"
-          :key="child.path"
-          :index="child.path"
-        >
+      <!-- 有子菜单 -->
+      <el-sub-menu
+        v-for="item in hasChildren"
+        :key="item.path"
+        :index="item.path"
+      >
+        <template #title>
           <el-icon class="icons">
-            <component :is="child.icon"></component>
+            <component :is="item.icon"></component>
           </el-icon>
-          <span>{{ child.label }}</span>
-        </el-menu-item>
-      </el-menu-item-group>
-    </el-sub-menu>
-    <!-- 有子菜单 -->
-  </el-menu>
+          <span>{{ item.label }}</span>
+        </template>
+
+        <el-menu-item-group>
+          <el-menu-item
+            v-for="child in item.children"
+            :key="child.path"
+            :index="child.path"
+          >
+            <el-icon class="icons">
+              <component :is="child.icon"></component>
+            </el-icon>
+            <span>{{ child.label }}</span>
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-sub-menu>
+      <!-- 有子菜单 -->
+    </el-menu>
+  </el-aside>
 </template>
 
 <style lang="less" scoped>
@@ -118,10 +123,11 @@ const hasChildren = computed(() => list.value.filter((item) => item.children));
 }
 .el-menu {
   height: 100%;
+  width: 100%;
   border-right: none;
   background-color: #545c64;
   h3 {
-    font-size: 18px;
+    font-size: 20px;
     text-align: center;
     line-height: 50px;
     color: #fff;

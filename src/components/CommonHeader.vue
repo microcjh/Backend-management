@@ -1,15 +1,19 @@
 <script setup>
 import { ref, computed } from "vue";
+import { useAllDataStore } from "@/stores";
 const getImage = (user) =>
   new URL(`../assets/images/${user}.png`, import.meta.url).href;
 // import.meta.url 表示当前的绝对路径 href是URL的一个属性，表示一个字符串。
+
+const store = useAllDataStore();
+const handleCollapse = () => (store.state.isCollapse = !store.state.isCollapse);
 </script>
 
 <template>
   <div class="header">
     <!-- 左侧按钮加面包屑 -->
     <div class="l-content">
-      <el-button type="primary" class="icon">
+      <el-button type="primary" class="icon" @click="handleCollapse">
         <el-icon style="vertical-align: middle">
           <Menu />
         </el-icon>

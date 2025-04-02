@@ -7,7 +7,7 @@ import CommonHeader from "@/components/CommonHeader.vue";
   <div class="common-layout">
     <el-container class="lay-container">
       <!-- 左侧组件 -->
-      <el-aside width="200px"><common-aside /></el-aside>
+      <common-aside />
       <!-- 左侧组件 -->
 
       <el-container>
