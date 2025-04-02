@@ -1,5 +1,6 @@
 <script setup>
 import CommonAside from "@/components/CommonAside.vue";
+import CommonHeader from "@/components/CommonHeader.vue";
 </script>
 
 <template>
@@ -12,7 +13,7 @@ import CommonAside from "@/components/CommonAside.vue";
       <el-container>
         <!-- 右侧头部组件 -->
         <el-header class="el-header">
-          <!-- <common-header />  -->
+          <common-header />
         </el-header>
         <!-- 右侧头部组件 -->
 
