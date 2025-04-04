@@ -1,9 +1,8 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useAllDataStore } from "@/stores";
-const getImage = (user) =>
-  new URL(`../assets/images/${user}.png`, import.meta.url).href;
-// import.meta.url 表示当前的绝对路径 href是URL的一个属性，表示一个字符串。
+// const getImage = (user) =>
+//   new URL(`../assets/images/${user}.png`, import.meta.url).href;
 
 const store = useAllDataStore();
 const handleCollapse = () => (store.state.isCollapse = !store.state.isCollapse);
@@ -28,7 +27,7 @@ const handleCollapse = () => (store.state.isCollapse = !store.state.isCollapse);
     <div class="r-content">
       <el-dropdown>
         <span class="el-dropdown-link">
-          <img :src="getImage('user')" class="user" />
+          <img :src="store.getImage('user')" class="user" />
           <!-- <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon> -->

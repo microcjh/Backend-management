@@ -18,7 +18,7 @@ import CommonHeader from "@/components/CommonHeader.vue";
         <!-- 右侧头部组件 -->
 
         <!-- 主页面处实现路由跳转 -->
-        <el-main class="right-main">main </el-main>
+        <el-main class="right-main"><router-view></router-view> </el-main>
         <!-- 主页面处实现路由跳转 -->
       </el-container>
     </el-container>

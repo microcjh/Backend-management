@@ -1,13 +1,22 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Main from '@/views/Main.vue'
+// import Main from '@/views/Main.vue'
 
 //制定路由规则
 const routes = [
     {
         path: "/",
         name: "main",
-        //component: () => import("@/views/Main.vue")
-        component: Main
+        component: () => import("@/views/Main.vue"),
+        // component: Main
+        redirect: "/home",
+        children: [
+            {
+                path: "/home",
+                name: "home",
+                component: () => import("@/views/Home.vue"),
+                // component: Main
+            }
+        ]
     }
 ]
 
