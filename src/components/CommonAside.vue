@@ -64,6 +64,7 @@ const width = computed(() => (store.state.isCollapse ? "64px" : "180px"));
       background-color="#545c64"
       text-color="#fff"
       :collapse="isCollapse"
+      :collapse-transition="false"
     >
       <!-- background-color="#545c64"
     text-color="#fff" -->

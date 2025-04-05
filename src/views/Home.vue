@@ -1,12 +1,36 @@
 <script setup>
 import { useAllDataStore } from "@/stores";
+import { ref, getCurrentInstance, onMounted } from "vue";
+
+const { proxy } = getCurrentInstance();
+
+//pinia
 const store = useAllDataStore();
+
+// home下面的数据,使用axios去请求mock制造的假数据
+const tableData = ref([]);
+const tableLabel = ref({
+  name: "课程",
+  todayBuy: "今日购买",
+  monthBuy: "本月购买",
+  totalBuy: "总购买",
+});
+
+const getTableData = async () => {
+  const data = await proxy.$api.getTableData();
+  tableData.value = data.tableData;
+};
+
+onMounted(() => {
+  getTableData();
+});
 </script>
 
 <template>
   <el-row class="home" :gutter="20">
-    <el-col style="margin-top=20px" :span="8">
-      <el-card>
+    <!-- home左侧（包括两个卡片） -->
+    <el-col :span="8">
+      <el-card shadow="hover">
         <div class="user">
           <img :src="store.getImage('user')" class="user" />
           <div class="user-info">
@@ -20,8 +44,18 @@ const store = useAllDataStore();
           <p>上次登录地点：<span>武汉</span></p>
         </div>
       </el-card>
-      <el-card class="bottomCard"> </el-card>
+      <el-card class="bottomCard" shadow="hover">
+        <el-table :data="tableData" stripe>
+          <el-table-column
+            v-for="(first, other) in tableLabel"
+            :label="first"
+            :prop="other"
+          />
+        </el-table>
+      </el-card>
     </el-col>
+    <!-- home左侧（包括两个卡片） -->
+
     <el-col :span="16"> </el-col>
   </el-row>
 </template>
@@ -61,5 +95,9 @@ const store = useAllDataStore();
       }
     }
   }
+  .bottomCard {
+    margin-top: 20px;
+  }
 }
 </style>
+
