@@ -140,7 +140,6 @@ observer.value = new ResizeObserver(() => {
 if (proxy.$refs["echart"]) {
   observer.value.observe(proxy.$refs["echart"]);
 }
-
 onMounted(() => {
   getTableData();
   getCountData();
