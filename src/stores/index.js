@@ -13,6 +13,9 @@ function initState() {
                 icon: "home",
             },
         ],
+        menuList: [],
+        token: '',
+        currentMenu: null
     }
 }
 const getImage = (user) =>
@@ -27,16 +30,21 @@ export const useAllDataStore = defineStore('allData', () => {
             let index = state.value.tags.findIndex(item => item.name === val.name)
             //如果不存在则添加到tags中
             index === -1 ? state.value.tags.push(val) : ""
+            state.value.currentMenu = val
         }
     }
     function updateTags(tag) {
         let index = state.value.tags.findIndex((item) => item.name === tag.name)
         state.value.tags.splice(index, 1)
     }
+    function updateMenu(val) {
+        state.value.menuList = val
+    }
     return {
         state,
         getImage,
         addMenu,
-        updateTags
+        updateTags,
+        updateMenu
     }
 })

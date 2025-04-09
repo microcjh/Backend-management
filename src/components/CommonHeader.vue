@@ -1,11 +1,15 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useAllDataStore } from "@/stores";
-// const getImage = (user) =>
-//   new URL(`../assets/images/${user}.png`, import.meta.url).href;
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const store = useAllDataStore();
 const handleCollapse = () => (store.state.isCollapse = !store.state.isCollapse);
+const handleClose = () => {
+  router.push("/login");
+};
+const current = computed(() => store.state.currentMenu);
 </script>
 
 <template>
@@ -18,7 +22,12 @@ const handleCollapse = () => (store.state.isCollapse = !store.state.isCollapse);
         </el-icon>
       </el-button>
       <el-breadcrumb separator="/" class="bread">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/home' }" class="font-weight:normal"
+          >首页</el-breadcrumb-item
+        >
+        <el-breadcrumb-item v-if="current" :to="current.path">{{
+          current.label
+        }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!-- 左侧按钮加面包屑 -->
@@ -35,7 +44,7 @@ const handleCollapse = () => (store.state.isCollapse = !store.state.isCollapse);
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item @click="handleClose">退出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
