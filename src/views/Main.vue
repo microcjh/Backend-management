@@ -1,6 +1,7 @@
 <script setup>
 import CommonAside from "@/components/CommonAside.vue";
 import CommonHeader from "@/components/CommonHeader.vue";
+import CommonTab from "@/components/CommonTab.vue";
 </script>
 
 <template>
@@ -16,7 +17,7 @@ import CommonHeader from "@/components/CommonHeader.vue";
           <common-header />
         </el-header>
         <!-- 右侧头部组件 -->
-
+        <common-tab />
         <!-- 主页面处实现路由跳转 -->
         <el-main class="right-main"><router-view></router-view> </el-main>
         <!-- 主页面处实现路由跳转 -->

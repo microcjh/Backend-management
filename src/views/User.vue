@@ -37,7 +37,6 @@ const tableLabel = reactive([
   {
     prop: "addr",
     label: "地址",
-    width: 600,
   },
 ]);
 //实现搜索功能
@@ -164,7 +163,7 @@ onMounted(() => {
         :label="item.label"
         :key="item.label"
       ></el-table-column>
-      <el-table-column fixed="right" label="Operations" min-width="120">
+      <el-table-column fixed="right" label="Operations" min-width="80">
         <template #="scope">
           <el-button type="primary" size="small" @click="handleEdit(scope.row)">
             编辑

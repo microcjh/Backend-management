@@ -1,6 +1,7 @@
     <script setup>
 import { ref, computed } from "vue";
 import { useAllDataStore } from "@/stores";
+import { useRoute, useRouter } from "vue-router";
 // 左侧菜单数据列表
 const list = ref([
   {
@@ -54,8 +55,17 @@ const hasChildren = computed(() => list.value.filter((item) => item.children));
 //过滤出有多级菜单和无多级菜单的列表数据
 
 const store = useAllDataStore();
+const router = useRouter();
+const route = useRoute();
+//处理刷新时持续选中状态
+const activeMenu = computed(() => route.path);
 const isCollapse = computed(() => store.state.isCollapse);
 const width = computed(() => (store.state.isCollapse ? "64px" : "180px"));
+// 实现点击跳转路由
+const handleMenu = (item) => {
+  router.push(item.path);
+  store.addMenu(item);
+};
 </script>
 
 <template>
@@ -65,6 +75,7 @@ const width = computed(() => (store.state.isCollapse ? "64px" : "180px"));
       text-color="#fff"
       :collapse="isCollapse"
       :collapse-transition="false"
+      :default-active="activeMenu"
     >
       <!-- background-color="#545c64"
     text-color="#fff" -->
@@ -77,6 +88,7 @@ const width = computed(() => (store.state.isCollapse ? "64px" : "180px"));
         v-for="item in noChildren"
         :key="item.path"
         :index="item.path"
+        @click="handleMenu(item)"
       >
         <el-icon class="icons">
           <component :is="item.icon"></component>
@@ -103,6 +115,7 @@ const width = computed(() => (store.state.isCollapse ? "64px" : "180px"));
             v-for="child in item.children"
             :key="child.path"
             :index="child.path"
+            @click="handleMenu(item)"
           >
             <el-icon class="icons">
               <component :is="child.icon"></component>
